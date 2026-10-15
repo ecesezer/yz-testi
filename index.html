@@ -1,0 +1,202 @@
+<!doctype html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Yapay Zekâ Hazırlık Testi | Ece Sezer</title>
+<meta name="description" content="10 soruda işyerinizin yapay zekâya hazırlığını beş alanda ölçün, ilk adımı hemen görün.">
+<style>
+body{margin:0;background:#ffffff}
+#es-test{--ink:#1c2a3a;--soft:#5b6878;--line:#e3e7ec;--bg:#ffffff;--tint:#f4f6f8;--accent:#1c2a3a;--ok:#2f7d5b;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;color:var(--ink);background:var(--bg);max-width:680px;margin:0 auto;padding:24px 16px;box-sizing:border-box;line-height:1.55}
+#es-test *{box-sizing:border-box}
+#es-test h2{font-size:1.6rem;line-height:1.25;margin:0 0 12px}
+#es-test h3{font-size:1.15rem;margin:0 0 8px}
+#es-test p{margin:0 0 14px;color:var(--soft)}
+#es-test .es-card{border:1px solid var(--line);border-radius:12px;padding:24px}
+#es-test .es-btn{display:inline-block;background:var(--accent);color:#fff;border:0;border-radius:8px;padding:12px 22px;font-size:1rem;cursor:pointer;text-decoration:none;font-family:inherit}
+#es-test .es-btn:hover{opacity:.9}
+#es-test .es-btn[disabled]{opacity:.5;cursor:default}
+#es-test .es-btn.es-ghost{background:transparent;color:var(--ink);border:1px solid var(--line)}
+#es-test .es-meta{font-size:.85rem;color:var(--soft);margin-bottom:16px}
+#es-test .es-bar{height:6px;background:var(--line);border-radius:3px;overflow:hidden;margin-bottom:20px}
+#es-test .es-bar span{display:block;height:100%;width:0;background:var(--accent);transition:width .3s}
+#es-test .es-opt{display:block;width:100%;text-align:left;background:var(--bg);border:1px solid var(--line);border-radius:8px;padding:12px 14px;margin:0 0 10px;font-size:.98rem;color:var(--ink);cursor:pointer;font-family:inherit}
+#es-test .es-opt:hover{background:var(--tint)}
+#es-test .es-nav{display:flex;justify-content:space-between;margin-top:8px}
+#es-test .es-link{background:none;border:0;color:var(--soft);cursor:pointer;font-size:.9rem;padding:4px 0;font-family:inherit}
+#es-test .es-score{font-size:2.6rem;font-weight:700;margin:4px 0}
+#es-test .es-dim{margin:0 0 12px}
+#es-test .es-dim > div:first-child{display:flex;justify-content:space-between;font-size:.9rem;margin-bottom:4px}
+#es-test .es-note{background:var(--tint);border-radius:8px;padding:14px 16px;margin:18px 0}
+#es-test .es-note p{margin:0;color:var(--ink)}
+#es-test .es-form{border-top:1px solid var(--line);margin-top:22px;padding-top:20px}
+#es-test .es-form label{display:block;font-size:.9rem;margin:0 0 4px}
+#es-test .es-form input[type=text],#es-test .es-form input[type=email],#es-test .es-form input[type=tel]{width:100%;padding:10px 12px;border:1px solid var(--line);border-radius:8px;font-size:1rem;margin:0 0 12px;font-family:inherit;color:var(--ink)}
+#es-test .es-check{display:flex;gap:8px;align-items:flex-start;font-size:.85rem;color:var(--soft);margin:4px 0 14px}
+#es-test .es-check input{margin-top:3px}
+#es-test .es-check a{color:var(--ink)}
+#es-test .es-msg{font-size:.9rem;margin-top:12px}
+#es-test .es-msg.ok{color:var(--ok)}
+#es-test .es-msg.err{color:#a33}
+#es-test .es-actions{display:flex;flex-wrap:wrap;gap:10px;margin-top:20px}
+#es-test .es-small{font-size:.8rem;color:var(--soft);margin-top:16px}
+#es-test [hidden]{display:none!important}
+</style>
+</head>
+<body>
+<div id="es-test">
+  <div class="es-card">
+
+    <section data-es="intro">
+      <h2>İşyeriniz yapay zekâya ne kadar hazır?</h2>
+      <p>10 soru, yaklaşık 3 dakika. Sonunda işyerinizin beş alandaki durumunu ve ilk adımda nereye odaklanmanız gerektiğini göreceksiniz.</p>
+      <p>Sorular araç bilgisini değil, işin nasıl yürüdüğünü ölçer. Doğru cevap yok; bugünkü durumu en iyi anlatan seçeneği işaretleyin.</p>
+      <button class="es-btn" type="button" data-es-start>Teste başla</button>
+    </section>
+
+    <section data-es="quiz" hidden>
+      <div class="es-meta" data-es-meta></div>
+      <div class="es-bar"><span data-es-progress></span></div>
+      <h3 data-es-q></h3>
+      <div data-es-opts></div>
+      <div class="es-nav"><button class="es-link" type="button" data-es-back>← Önceki soru</button></div>
+    </section>
+
+    <section data-es="result" hidden>
+      <p class="es-meta">Sonucunuz</p>
+      <div class="es-score" data-es-total></div>
+      <h3 data-es-title></h3>
+      <p data-es-text></p>
+      <div data-es-dims></div>
+      <div class="es-note"><p data-es-focus></p></div>
+      <p>Bu sonuç bir başlangıç noktası. İşyerinize özel bir yol haritası için sonucunuzu birlikte yorumlayabiliriz: 35 dakikalık, ücretsiz bir ön görüşmede durumunuzu dinliyor ve ilk somut adımı birlikte belirliyoruz.</p>
+
+      <form class="es-form" data-es-form novalidate>
+        <h3>Ön görüşme talep edin</h3>
+        <label for="es-name">Ad soyad *</label>
+        <input type="text" id="es-name" name="name" required autocomplete="name">
+        <label for="es-company">Şirket / kurum</label>
+        <input type="text" id="es-company" name="company" autocomplete="organization">
+        <label for="es-email">E-posta *</label>
+        <input type="email" id="es-email" name="email" required autocomplete="email">
+        <label for="es-phone">Telefon</label>
+        <input type="tel" id="es-phone" name="phone" autocomplete="tel">
+        <div class="es-check">
+          <input type="checkbox" id="es-kvkk" name="kvkk" required>
+          <label for="es-kvkk" style="margin:0"><a href="KVKK_LINK" target="_blank" rel="noopener">Aydınlatma metnini</a> okudum; bilgilerimin ön görüşme için işlenmesini onaylıyorum. *</label>
+        </div>
+        <button class="es-btn" type="submit" data-es-send>Talebimi gönder</button>
+        <div class="es-msg" data-es-msg></div>
+      </form>
+
+      <div class="es-actions">
+        <button class="es-btn es-ghost" type="button" data-es-restart>Testi yeniden çöz</button>
+      </div>
+      <p class="es-small">Cevaplarınız yalnızca ön görüşme formunu gönderirseniz bana ulaşır. Formu göndermezseniz hiçbir bilgi kaydedilmez.</p>
+    </section>
+
+  </div>
+</div>
+
+<script>
+(function(){
+  /* ===== AYARLAR: yalnızca bu iki satırı değiştirin ===== */
+  var EMAIL='ece@ecesezer.com';      // yedek: form gönderilemezse e-posta bu adrese açılır
+  var SHEET_URL='';                  // Google Apps Script web uygulaması adresi (kurulumdan sonra yapıştırın)
+  /* ===================================================== */
+
+  var root=document.getElementById('es-test');
+  var DIMS={s:'Strateji ve sahiplik',p:'Süreçler',v:'Veri ve kurum hafızası',e:'Ekip',g:'Kurallar ve kaynak'};
+  var FOCUS={
+    s:'İlk adım: Yönetimde yapay zekâdan sorumlu bir kişi belirleyin ve "önce hangi işte zaman kaybediyoruz?" sorusuna 1-2 somut cevap yazın. Hedef belli olmadan yapılan denemeler dağınık kalır.',
+    p:'İlk adım: En sık tekrar eden 3 işi (teklif, rapor, yazışma gibi) adım adım yazıya dökün. Yapay zekâ, tanımlı bir süreci hızlandırır; tanımsız bir süreci yalnızca karmaşıklaştırır.',
+    v:'İlk adım: Müşteri, teklif ve satış bilgilerinin tek bir yerde toplanmasını sağlayın. Bilgi kişilerin telefonunda ve kafasında kaldıkça hem yapay zekâ hem de yeni çalışanlar onu kullanamaz.',
+    e:'İlk adım: Ekipten istekli 2-3 kişiyle, gerçek bir iş üzerinde kısa bir uygulama yapın ve sonucu herkesle paylaşın. Görülen fayda, toplu eğitimden daha hızlı ikna eder.',
+    g:'İlk adım: Hangi şirket bilgisinin yapay zekâ araçlarına girilemeyeceğini yazılı hale getirin ve küçük bir pilot için zaman ayırın. Kural olmadan yaygınlaşan kullanım, sonradan pahalı bir sorun olabilir.'
+  };
+  var Q=[
+    {d:'s',q:'Yapay zekâ işyerinizde nasıl konuşuluyor?',o:['Hiç gündemimizde değil','Merak var ama kimse sahiplenmiyor','Birkaç kişi kendi başına kullanıyor','Yönetim hedef koydu, sorumlu kişi belli']},
+    {d:'s',q:'Yapay zekâdan ne beklediğiniz net mi?',o:['Henüz bilmiyoruz','"Verimlilik" gibi genel bir beklenti var','Bir-iki somut iş belirledik','Ölçebildiğimiz hedeflerimiz var']},
+    {d:'p',q:'Tekrar eden işleriniz (teklif, rapor, yazışma) ne kadar tanımlı?',o:['Kişiye göre değişiyor','Bazıları yazılı','Çoğu tanımlı ama güncel değil','Güncel ve yazılı']},
+    {d:'p',q:'Bir iş geciktiğinde bunu nasıl fark ediyorsunuz?',o:['Sorun büyüdüğünde','Tek tek sorarak','Düzenli toplantılarda','Takip sistemimizden görerek']},
+    {d:'v',q:'İşyerinizde müşteri, teklif ve satış bilgileri nerede duruyor?',o:['Kişilerin telefonunda ve hafızasında','Dağınık Excel dosyalarında ve e-postalarda','Tek bir sistemde ama eksik','Tek, düzenli ve güncel bir sistemde']},
+    {d:'v',q:'Deneyimli bir çalışan ayrılırsa bildikleri ne olur?',o:['Onunla birlikte gider','Kısmen devredilir','Devir için bir yöntemimiz var','Bilgi zaten sistemde kayıtlı']},
+    {d:'e',q:'Ekip yeni bir aracı öğrenmeye nasıl yaklaşıyor?',o:['Direnç gösteriyor','Mecbur kalınca öğreniyor','İstekli ama zamanı yok','Kendiliğinden deniyor ve paylaşıyor']},
+    {d:'e',q:'Çalışanlar yapay zekâyı işte nasıl kullanıyor?',o:['Kullanmıyorlar','Kullanıp kullanmadıklarını bilmiyoruz','Bazıları kendi yöntemiyle kullanıyor','Ortak bir yöntemle ve birbirine öğreterek']},
+    {d:'g',q:'Şirket bilgilerinin yapay zekâ araçlarına girilmesiyle ilgili bir kural var mı?',o:['Hiç düşünmedik','Sözlü uyarılar var','Taslak bir kural var','Yazılı ve herkesin bildiği bir kural var']},
+    {d:'g',q:'Bir yapay zekâ denemesine zaman ve bütçe ayrılabilir mi?',o:['Şu an mümkün değil','Belirsiz','Küçük bir pilot için evet','Zaten planladık']}
+  ];
+  var LEVELS=[
+    {max:9,t:'Önce zemin',x:'İşyerinizde yapay zekâdan önce düzenlenmesi gereken temel konular var. Bu kötü bir haber değil: araç seçimine para harcamadan önce nereden başlamanız gerektiği belli.'},
+    {max:19,t:'Hazırlık aşaması',x:'İlgi ve bazı denemeler var, ama ortak bir yön ve düzen henüz oluşmamış. Bu aşamada en büyük risk, dağınık denemelerin "işe yaramıyor" algısı yaratması.'},
+    {max:25,t:'Uygulamaya yakın',x:'Temel yapınız büyük ölçüde hazır. Seçilmiş bir iş üzerinde, ölçülebilir hedefi olan küçük bir pilot için uygun bir noktadasınız.'},
+    {max:30,t:'Yaygınlaştırma',x:'Güçlü bir zemininiz var. Sıradaki konu, işe yarayan uygulamaları tüm ekibe yaymak ve sonuçları düzenli ölçmek.'}
+  ];
+
+  var i=0,ans=[],last=null;
+  function $(s){return root.querySelector(s)}
+  function show(n){['intro','quiz','result'].forEach(function(k){$('[data-es="'+k+'"]').hidden=(k!==n)});root.scrollIntoView({behavior:'smooth',block:'start'})}
+
+  function render(){
+    var q=Q[i];
+    $('[data-es-meta]').textContent='Soru '+(i+1)+' / '+Q.length+' · '+DIMS[q.d];
+    $('[data-es-progress]').style.width=(i/Q.length*100)+'%';
+    $('[data-es-q]').textContent=q.q;
+    var box=$('[data-es-opts]');box.innerHTML='';
+    q.o.forEach(function(txt,v){
+      var b=document.createElement('button');b.type='button';b.className='es-opt';b.textContent=txt;
+      b.onclick=function(){ans[i]=v;if(i<Q.length-1){i++;render()}else{result()}};
+      box.appendChild(b);
+    });
+    $('[data-es-back]').style.visibility=i?'visible':'hidden';
+  }
+
+  function result(){
+    var total=0,ds={};
+    Object.keys(DIMS).forEach(function(k){ds[k]=0});
+    Q.forEach(function(q,k){total+=ans[k];ds[q.d]+=ans[k]});
+    var lv=LEVELS.filter(function(l){return total<=l.max})[0];
+    $('[data-es-total]').textContent=total+' / 30';
+    $('[data-es-title]').textContent=lv.t;
+    $('[data-es-text]').textContent=lv.x;
+    var weakest=null,html='';
+    Object.keys(DIMS).forEach(function(k){
+      if(weakest===null||ds[k]<ds[weakest])weakest=k;
+      html+='<div class="es-dim"><div><span>'+DIMS[k]+'</span><span>'+ds[k]+' / 6</span></div><div class="es-bar" style="margin:0"><span style="width:'+Math.round(ds[k]/6*100)+'%"></span></div></div>';
+    });
+    $('[data-es-dims]').innerHTML=html;
+    $('[data-es-focus]').textContent=FOCUS[weakest];
+    last={total:total,level:lv.t,dims:ds,weakest:DIMS[weakest],answers:ans.slice()};
+    $('[data-es-msg]').textContent='';$('[data-es-msg]').className='es-msg';
+    $('[data-es-form]').hidden=false;
+    show('result');
+  }
+
+  function mailtoFallback(f){
+    var lines=Object.keys(DIMS).map(function(k){return '- '+DIMS[k]+': '+last.dims[k]+'/6'}).join('\n');
+    var body='Merhaba Ece Hanım,\n\nYapay zekâya hazırlık testini çözdüm. Sonucumu birlikte değerlendirmek için ön görüşme talep ediyorum.\n\nToplam puan: '+last.total+'/30 ('+last.level+')\n'+lines+'\n\nAd soyad: '+f.name+'\nŞirket / kurum: '+f.company+'\nTelefon: '+f.phone+'\n';
+    window.location.href='mailto:'+EMAIL+'?subject='+encodeURIComponent('Ön görüşme talebi: Yapay zekâ hazırlık testi ('+last.total+'/30)')+'&body='+encodeURIComponent(body);
+  }
+
+  $('[data-es-form]').onsubmit=function(e){
+    e.preventDefault();
+    var form=e.target,msg=$('[data-es-msg]');
+    var f={name:form.name.value.trim(),company:form.company.value.trim(),email:form.email.value.trim(),phone:form.phone.value.trim()};
+    if(!f.name||!/^\S+@\S+\.\S+$/.test(f.email)){msg.className='es-msg err';msg.textContent='Lütfen ad soyad ve geçerli bir e-posta adresi yazın.';return}
+    if(!form.kvkk.checked){msg.className='es-msg err';msg.textContent='Devam etmek için aydınlatma metnini onaylamanız gerekiyor.';return}
+    if(!SHEET_URL){mailtoFallback(f);return}
+    var btn=$('[data-es-send]');btn.disabled=true;msg.className='es-msg';msg.textContent='Gönderiliyor…';
+    var payload={date:new Date().toISOString(),name:f.name,company:f.company,email:f.email,phone:f.phone,total:last.total,level:last.level,weakest:last.weakest};
+    Object.keys(DIMS).forEach(function(k){payload[DIMS[k]]=last.dims[k]});
+    fetch(SHEET_URL,{method:'POST',mode:'no-cors',headers:{'Content-Type':'text/plain;charset=utf-8'},body:JSON.stringify(payload)})
+      .then(function(){msg.className='es-msg ok';msg.textContent='Teşekkürler, talebiniz bana ulaştı. En geç iki iş günü içinde size dönüş yapacağım.';form.hidden=true})
+      .catch(function(){btn.disabled=false;msg.className='es-msg err';msg.textContent='Bağlantı sorunu oluştu. E-posta ile göndermek için tekrar tıklayın.';SHEET_URL=''});
+  };
+
+  $('[data-es-start]').onclick=function(){i=0;ans=[];show('quiz');render()};
+  $('[data-es-back]').onclick=function(){if(i>0){i--;render()}};
+  $('[data-es-restart]').onclick=function(){i=0;ans=[];var f=$('[data-es-form]');f.reset();f.hidden=false;$('[data-es-send]').disabled=false;show('quiz');render()};
+})();
+</script>
+</body>
+</html>
